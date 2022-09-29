@@ -23,30 +23,38 @@ export default function roomIdMessageIdRoute(req, res) {
     const room = rooms.find((x) => {
       return x.roomId === roomId;
     });
+    //check if roomId exist
     if (room == undefined) {
       return res.status(404).json({ ok: false, message: "Invalid room id" });
-    } else {
-      const message = room.messages.find((x) => {
-        return x.messageId === messageId;
-      });
-      if (message == undefined) {
-        return res
-          .status(404)
-          .json({ ok: false, message: "Invalid message id" });
-      } else {
-        room.messages = room.messages.filter((x) => {
-          return messageId != x.messageId;
-        });
-        writeChatRoomsDB(rooms);
-        return res.json({ ok: true });
-      }
     }
+
+    const message = room.messages.find((message) => {
+      return message.messageId === messageId;
+    });
+
+    if (message == null)
+      return res.status(404).json({
+        ok: false,
+        message: "Invalid message id",
+      });
+
+    //check if token owner is admin, they can delete any message
+    //or if token owner is normal user, they can only delete their own message!
+    if (user.isAdmin || message.username === user.username) {
+      room.messages = room.messages.filter(
+        (message) => message.messageId !== messageId
+      );
+      writeChatRoomsDB(rooms);
+      return res.json({
+        ok: true,
+      });
+    } else {
+      return res.status(403).json({
+        ok: false,
+        message: "You do not have permission to access this data",
+      });
+    }
+
+    //check if messageId exist
   }
-
-  //check if roomId exist
-
-  //check if messageId exist
-
-  //check if token owner is admin, they can delete any message
-  //or if token owner is normal user, they can only delete their own message!
 }

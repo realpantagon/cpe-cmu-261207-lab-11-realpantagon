@@ -28,7 +28,6 @@ export default function roomIdMessageRoute(req, res) {
       return res.json({
         ok: true,
         messages: room.messages,
-        username: user.username,
       });
     }
 

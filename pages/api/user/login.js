@@ -45,7 +45,7 @@ export default function login(req, res) {
       ok: true,
       username: foundUser.username,
       isAdmin: foundUser.isAdmin,
-      token: token,
+      token,
     });
   }
 }
