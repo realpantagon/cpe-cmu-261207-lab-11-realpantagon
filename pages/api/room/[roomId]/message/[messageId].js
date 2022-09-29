@@ -37,7 +37,7 @@ export default function roomIdMessageIdRoute(req, res) {
         room.messages = room.messages.filter((x) => {
           return messageId != x.messageId;
         });
-        writeDB(rooms);
+        writeChatRoomsDB(rooms);
         return res.json({ ok: true });
       }
     }

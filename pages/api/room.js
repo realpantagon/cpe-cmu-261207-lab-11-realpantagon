@@ -12,7 +12,7 @@ export default function roomRoute(req, res) {
   const chatrooms = readChatRoomsDB();
   return res.status(200).json({
     ok: true,
-    chatrooms: chatrooms.map((x) => {
+    rooms: chatrooms.map((x) => {
       return {
         roomId: x.roomId,
         roomName: x.roomName,

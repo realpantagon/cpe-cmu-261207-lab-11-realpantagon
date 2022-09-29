@@ -25,7 +25,11 @@ export default function roomIdMessageRoute(req, res) {
     if (room == undefined) {
       return res.status(404).json({ ok: false, message: "Invalid room id" });
     } else {
-      return res.json({ ok: true, messages: room.messages });
+      return res.json({
+        ok: true,
+        messages: room.messages,
+        username: user.username,
+      });
     }
 
     //check if roomId exist
@@ -61,14 +65,13 @@ export default function roomIdMessageRoute(req, res) {
     const newText = {
       messageId: uuidv4(),
       text: req.body.text,
+      username: user.username,
     };
     room.messages.push(newText);
     writeChatRoomsDB(rooms);
     return res.json({
       ok: true,
-      messageId: room.message.messageId,
-      text: room.message.text,
-      username: foundUser.username,
+      ...newText,
     });
   }
 }
