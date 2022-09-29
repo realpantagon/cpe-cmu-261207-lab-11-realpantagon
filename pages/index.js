@@ -33,7 +33,7 @@ export default function Home() {
         onChange={(e) => setPassword(e.target.value)}
         value={password}
         onKeyUp={(e) => {
-          if (e.key === "Enter") callUserLogin();
+          if (e.key === "Enter ") callUserLogin();
         }}
         type="password"
       />
