@@ -24,7 +24,7 @@ export default function Home() {
 
   return (
     <div>
-      <p>Private Chat Room by Pichayoot</p>
+      <p>Private Chat Room</p>
       <label>Username</label>
       <input onChange={(e) => setUsername(e.target.value)} value={username} />
       <br />
@@ -33,7 +33,7 @@ export default function Home() {
         onChange={(e) => setPassword(e.target.value)}
         value={password}
         onKeyUp={(e) => {
-          if (e.key === "Enter ") callUserLogin();
+          if (e.key === "Enter") callUserLogin();
         }}
         type="password"
       />

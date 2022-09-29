@@ -6,12 +6,42 @@ import {
 
 export default function roomIdMessageIdRoute(req, res) {
   //get ids from url
-  const roomId = req.query.roomId;
-  const messageId = req.query.messageId;
+  if (req.method === "DELETE") {
+    const roomId = req.query.roomId;
+    const messageId = req.query.messageId;
 
-  //check token
+    //check token
+    const user = checkToken(req);
+    if (!user) {
+      return res.status(401).json({
+        ok: false,
+        message: "Yon don't permission to access this api",
+      });
+    }
 
-  const rooms = readChatRoomsDB();
+    const rooms = readChatRoomsDB();
+    const room = rooms.find((x) => {
+      return x.roomId === roomId;
+    });
+    if (room == undefined) {
+      return res.status(404).json({ ok: false, message: "Invalid room id" });
+    } else {
+      const message = room.messages.find((x) => {
+        return x.messageId === messageId;
+      });
+      if (message == undefined) {
+        return res
+          .status(404)
+          .json({ ok: false, message: "Invalid message id" });
+      } else {
+        room.messages = room.messages.filter((x) => {
+          return messageId != x.messageId;
+        });
+        writeDB(rooms);
+        return res.json({ ok: true });
+      }
+    }
+  }
 
   //check if roomId exist
 
