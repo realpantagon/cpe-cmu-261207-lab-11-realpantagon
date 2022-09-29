@@ -24,7 +24,7 @@ export default function Home() {
 
   return (
     <div>
-      <p>Private Chat Room</p>
+      <p>Private Chat Room by Pichayoot</p>
       <label>Username</label>
       <input onChange={(e) => setUsername(e.target.value)} value={username} />
       <br />
